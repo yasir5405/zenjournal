@@ -19,7 +19,7 @@ app.use(
     credentials: true, // Allow cookies to be sent with requests
   })
 );
-app.use(cookieParser());
+// app.use(cookieParser());
 
 connectDB();
 
