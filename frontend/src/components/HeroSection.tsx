@@ -29,15 +29,6 @@ const HeroSection = () => {
           </motion.h1>
         </HeroHighlight>
       </div>
-
-      {/* Right Div */}
-      {/* <div className="h-full flex-1">
-        <img
-          src="/hero.jpg"
-          alt=""
-          className="w-full h-full object-contain"
-        />
-      </div> */}
     </div>
   );
 };

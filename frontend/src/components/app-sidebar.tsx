@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   Calendar,
   FileText,
@@ -7,12 +7,12 @@ import {
   PlusCircle,
   Settings,
   TrendingUp,
-} from "lucide-react"
-import { useSelector } from "react-redux"
+} from "lucide-react";
+import { useSelector } from "react-redux";
 
-import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/nav-main";
+import { NavProjects } from "@/components/nav-projects";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -23,16 +23,18 @@ import {
   SidebarMenuItem,
   SidebarRail,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const userData = useSelector((state: { auth: { userData: any } }) => state.auth.userData)
-  const { state } = useSidebar()
+  const userData = useSelector(
+    (state: { auth: { userData: any } }) => state.auth.userData
+  );
+  const { state } = useSidebar();
 
   // ZenJournal specific navigation data
   const data = {
     user: {
-      name: userData?.name || userData?.email?.split('@')[0] || "User",
+      name: userData?.name || userData?.email?.split("@")[0] || "User",
       email: userData?.email || "user@zenjournal.com",
       avatar: userData?.avatar || "/avatars/user.jpg",
     },
@@ -159,7 +161,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         icon: TrendingUp,
       },
     ],
-  }
+  };
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -171,7 +173,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Heart className="size-4" />
+                {/* <Heart className="size-4" /> */}
+                <img
+                  src="/logo (2).png"
+                  alt=""
+                  className="h-11 w-11 invert brightness-0"
+                />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">ZenJournal</span>
@@ -190,5 +197,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

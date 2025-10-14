@@ -1,6 +1,6 @@
 import type { NavItems } from "@/types";
-import { ArrowRight, Layers } from "lucide-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 
 const Navbar = () => {
@@ -8,8 +8,6 @@ const Navbar = () => {
     { name: "Features", url: "/features" },
     { name: "About", url: "/about" },
     { name: "Contact", url: "/contact" },
-    { name: "Contact", url: "/contact" },
-    { name: "Contact", url: "/contact" }, 
   ];
 
   const token = localStorage.getItem("token");
@@ -17,12 +15,15 @@ const Navbar = () => {
   const navigate = useNavigate();
   return (
     <nav className="w-full py-4 flex items-center justify-between shadow-lg z-50 bg-background rounded-full px-4">
-      <h3 className="scroll-m-20 text-xl font-semibold tracking-tight flex gap-2 items-center ">
-        <Layers className="text-primary" />
+      <Link
+        to={"/"}
+        className="scroll-m-20 text-xl font-semibold tracking-tight flex gap-1 items-center "
+      >
+        <img src="/logo (2).png" alt="" className="h-11 w-11" />
         <p>
           Zen<span className="text-primary">Journal</span>
         </p>
-      </h3>
+      </Link>
 
       <div className="flex items-center justify-center gap-8">
         {navItems.map((navItem, idx) => (

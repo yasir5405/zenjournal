@@ -86,11 +86,15 @@ export function SignupForm({
               </div>
 
               {success && (
-                <p className="text-sm text-center text-green-600">{success}</p>
+                <p className="text-[hsl(var(--muted-foreground))] text-sm">
+                  {success}
+                </p>
               )}
 
               {error && (
-                <p className="text-sm text-center text-red-600">{error}</p>
+                <p className="text-[hsl(var(--muted-foreground))] text-sm">
+                  {error}
+                </p>
               )}
 
               <Button
@@ -152,7 +156,7 @@ export function SignupForm({
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="/placeholder.svg"
+              src="/photo.png"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
