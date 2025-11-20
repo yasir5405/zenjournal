@@ -1,10 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
 import { ViewEditEntryModal } from "@/components/ViewEditEntryModal";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -194,16 +188,12 @@ const RecentEntries = () => {
 
   if (error) {
     return (
-      <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-            <SidebarTrigger className="-ml-1" />
-            <div className="ml-auto">
-              <h1 className="text-lg font-semibold">Recent Entries</h1>
-            </div>
-          </header>
-          <div className="flex-1 space-y-4 p-4 pt-6">
+      <div className="flex-1 space-y-4 p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <BookOpen className="h-5 w-5 text-primary" />
+          <h1 className="text-lg font-semibold">Recent Entries</h1>
+        </div>
+        <div className="space-y-4">
             <Card>
               <CardContent className="flex items-center justify-center h-64">
                 <div className="text-center">
@@ -219,28 +209,23 @@ const RecentEntries = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        </SidebarInset>
-      </SidebarProvider>
+        </div>
+      </div>
     );
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-          <SidebarTrigger className="-ml-1" />
-          <div className="flex items-center gap-2 ml-2">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <h1 className="text-lg font-semibold">Recent Entries</h1>
-          </div>
-          <div className="ml-auto text-sm text-muted-foreground">
-            {totalEntries} total entries
-          </div>
-        </header>
-
-        <div className="flex-1 space-y-6 p-6">
+    <div className="flex-1 space-y-6 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <BookOpen className="h-5 w-5 text-primary" />
+          <h1 className="text-lg font-semibold">Recent Entries</h1>
+        </div>
+        <div className="text-sm text-muted-foreground">
+          {totalEntries} total entries
+        </div>
+      </div>
+      <div className="space-y-6">
           {/* Search and Filter Bar */}
           <div className="flex flex-col sm:flex-row gap-4">
             <form onSubmit={handleSearch} className="flex-1 flex gap-2">
@@ -381,17 +366,16 @@ const RecentEntries = () => {
               </div>
             </div>
           )}
-        </div>
+      </div>
 
-        {/* View/Edit Modal */}
-        <ViewEditEntryModal
-          isOpen={isViewModalOpen}
-          onClose={() => setIsViewModalOpen(false)}
-          entry={selectedEntry}
-          onSuccess={handleModalSuccess}
-        />
-      </SidebarInset>
-    </SidebarProvider>
+      {/* View/Edit Modal */}
+      <ViewEditEntryModal
+        isOpen={isViewModalOpen}
+        onClose={() => setIsViewModalOpen(false)}
+        entry={selectedEntry}
+        onSuccess={handleModalSuccess}
+      />
+    </div>
   );
 };
 

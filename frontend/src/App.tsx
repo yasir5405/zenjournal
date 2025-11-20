@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Dashboard, Home, LoginPage, NotFoundPage, SignupPage } from "./pages";
+import { Dashboard, Home, LoginPage, NotFoundPage, SignupPage, Analytics, Entries, CreateEntry, MoodCalendar } from "./pages";
 import RecentEntries from "./pages/RecentEntries";
 import { useEffect } from "react";
 import { api } from "./api/api";
@@ -9,6 +9,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
 import Navbar from "./components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 // Layout wrapper for pages that need padding
 const MainLayout = ({ children }: { children: React.ReactNode }) => (
@@ -18,6 +20,25 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => (
 // Layout wrapper for auth pages (no padding)
 const AuthLayout = ({ children }: { children: React.ReactNode }) => (
   <div>{children}</div>
+);
+
+// Layout wrapper for dashboard pages with sidebar
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => (
+  <SidebarProvider>
+    <AppSidebar />
+    <SidebarInset className="bg-background">
+      <div className="flex flex-col min-h-screen">
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 border-b bg-card/50">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+          </div>
+        </header>
+        <main className="flex-1">
+          {children}
+        </main>
+      </div>
+    </SidebarInset>
+  </SidebarProvider>
 );
 
 const App = () => {
@@ -92,7 +113,49 @@ const App = () => {
           path="/dashboard/recent"
           element={
             <ProtectedRoute>
-              <RecentEntries />
+              <DashboardLayout>
+                <RecentEntries />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/analytics"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Analytics />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/mood"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <MoodCalendar />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/entries"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Entries />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/entries/new"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <CreateEntry />
+              </DashboardLayout>
             </ProtectedRoute>
           }
         />
@@ -111,3 +174,4 @@ const App = () => {
 };
 
 export default App;
+

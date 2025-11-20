@@ -11,6 +11,8 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.39",
+    "ai": "^5.0.97",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

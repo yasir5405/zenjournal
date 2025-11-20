@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/auth.route.js";
 import { journalRouter } from "./routes/journal.route.js";
+import { moodRouter } from "./routes/mood.route.js";
 import { connectDB } from "./config/db.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { verifyJWT } from "./middlewares/auth.middleware.js";
@@ -47,6 +48,7 @@ app.get("/auth/test-protected", verifyJWT, (req, res) => {
 
 app.use("/auth", authRouter);
 app.use("/journal", journalRouter);
+app.use("/mood", moodRouter);
 
 //Global error handler
 app.use(errorHandler);

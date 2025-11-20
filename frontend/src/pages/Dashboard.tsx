@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { api } from "@/api/api";
 import { Calendar, FileText, Plus, Clock } from "lucide-react";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface JournalEntry {
   _id: string;
@@ -48,7 +49,9 @@ const Dashboard = () => {
   const [journals, setJournals] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [pagination, setPagination] = useState<JournalResponse['data']['pagination'] | null>(null);
+  const [pagination, setPagination] = useState<
+    JournalResponse["data"]["pagination"] | null
+  >(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -64,7 +67,8 @@ const Dashboard = () => {
         setError("Failed to fetch journals");
       }
     } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch journals";
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to fetch journals";
       setError(errorMessage);
       console.error("Error fetching journals:", err);
     } finally {
@@ -93,18 +97,18 @@ const Dashboard = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
   const truncateContent = (content: string, maxLength: number = 150) => {
     if (content.length <= maxLength) return content;
-    return content.slice(0, maxLength) + '...';
+    return content.slice(0, maxLength) + "...";
   };
 
   return (
@@ -122,6 +126,7 @@ const Dashboard = () => {
                   <div className="text-lg font-semibold text-foreground">
                     Journal Dashboard
                   </div>
+                  <ModeToggle />
                 </div>
               </div>
             </header>
@@ -133,13 +138,20 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h1 className="text-3xl font-bold text-foreground mb-2">
-                      Welcome back, {userData?.name || userData?.email?.split('@')[0] || 'User'}! 👋
+                      Welcome back,{" "}
+                      {userData?.name ||
+                        userData?.email?.split("@")[0] ||
+                        "User"}
+                      ! 👋
                     </h1>
                     <p className="text-muted-foreground">
                       Ready to continue your journaling journey?
                     </p>
                   </div>
-                  <Button className="flex items-center gap-2" onClick={() => setIsAddModalOpen(true)}>
+                  <Button
+                    className="flex items-center gap-2"
+                    onClick={() => setIsAddModalOpen(true)}
+                  >
                     <Plus className="h-4 w-4" />
                     New Entry
                   </Button>
@@ -150,11 +162,15 @@ const Dashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Total Entries</CardTitle>
+                    <CardTitle className="text-sm font-medium">
+                      Total Entries
+                    </CardTitle>
                     <FileText className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">{pagination?.totalEntries || 0}</div>
+                    <div className="text-2xl font-bold">
+                      {pagination?.totalEntries || 0}
+                    </div>
                     <p className="text-xs text-muted-foreground">
                       Your journaling collection
                     </p>
@@ -162,12 +178,20 @@ const Dashboard = () => {
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">This Month</CardTitle>
+                    <CardTitle className="text-sm font-medium">
+                      This Month
+                    </CardTitle>
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {journals.filter(j => new Date(j.createdAt).getMonth() === new Date().getMonth()).length}
+                      {
+                        journals.filter(
+                          (j) =>
+                            new Date(j.createdAt).getMonth() ===
+                            new Date().getMonth()
+                        ).length
+                      }
                     </div>
                     <p className="text-xs text-muted-foreground">
                       Entries this month
@@ -176,12 +200,16 @@ const Dashboard = () => {
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Recent Activity</CardTitle>
+                    <CardTitle className="text-sm font-medium">
+                      Recent Activity
+                    </CardTitle>
                     <Clock className="h-4 w-4 text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">
-                      {journals.length > 0 ? formatDate(journals[0].createdAt).split(',')[0] : 'None'}
+                      {journals.length > 0
+                        ? formatDate(journals[0].createdAt).split(",")[0]
+                        : "None"}
                     </div>
                     <p className="text-xs text-muted-foreground">
                       Last entry date
@@ -193,7 +221,9 @@ const Dashboard = () => {
               {/* Journal Entries Section */}
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-semibold text-foreground">Recent Entries</h2>
+                  <h2 className="text-2xl font-semibold text-foreground">
+                    Recent Entries
+                  </h2>
                   {pagination && pagination.totalEntries > 0 && (
                     <span className="inline-flex items-center rounded-full bg-secondary text-secondary-foreground px-2.5 py-0.5 text-xs font-semibold">
                       {pagination.totalEntries} total entries
@@ -220,10 +250,14 @@ const Dashboard = () => {
                 {error && (
                   <Card className="p-8 text-center border-destructive/50 bg-destructive/5">
                     <CardContent>
-                      <p className="text-destructive font-medium">Error loading journals</p>
-                      <p className="text-muted-foreground text-sm mt-1">{error}</p>
-                      <Button 
-                        variant="outline" 
+                      <p className="text-destructive font-medium">
+                        Error loading journals
+                      </p>
+                      <p className="text-muted-foreground text-sm mt-1">
+                        {error}
+                      </p>
+                      <Button
+                        variant="outline"
                         className="mt-4"
                         onClick={() => window.location.reload()}
                       >
@@ -241,11 +275,17 @@ const Dashboard = () => {
                         <FileText className="h-12 w-12 text-muted-foreground" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold mb-2">No journal entries yet</h3>
+                        <h3 className="text-xl font-semibold mb-2">
+                          No journal entries yet
+                        </h3>
                         <p className="text-muted-foreground mb-6">
-                          Start your mindfulness journey by creating your first journal entry.
+                          Start your mindfulness journey by creating your first
+                          journal entry.
                         </p>
-                        <Button className="flex items-center gap-2 mx-auto" onClick={() => setIsAddModalOpen(true)}>
+                        <Button
+                          className="flex items-center gap-2 mx-auto"
+                          onClick={() => setIsAddModalOpen(true)}
+                        >
                           <Plus className="h-4 w-4" />
                           Create Your First Entry
                         </Button>
@@ -258,8 +298,8 @@ const Dashboard = () => {
                 {!loading && !error && journals.length > 0 && (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {journals.map((journal) => (
-                      <Card 
-                        key={journal._id} 
+                      <Card
+                        key={journal._id}
                         className="group hover:shadow-md transition-all duration-200 cursor-pointer border hover:border-primary/20"
                         onClick={() => handleViewEntry(journal)}
                       >
@@ -283,7 +323,11 @@ const Dashboard = () => {
                               <span className="inline-flex items-center rounded-full border text-foreground px-2.5 py-0.5 text-xs font-semibold">
                                 {journal.content.length} characters
                               </span>
-                              <Button variant="ghost" size="sm" className="h-7 px-2 text-xs">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="h-7 px-2 text-xs"
+                              >
                                 Read More →
                               </Button>
                             </div>

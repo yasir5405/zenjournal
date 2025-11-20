@@ -22,14 +22,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const userData = useSelector(
     (state: { auth: { userData: any } }) => state.auth.userData
   );
-  const { state } = useSidebar();
 
   // ZenJournal specific navigation data
   const data = {
@@ -72,14 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             title: "Create New",
             url: "/entries/new",
           },
-          {
-            title: "Drafts",
-            url: "/entries/drafts",
-          },
-          {
-            title: "Archive",
-            url: "/entries/archive",
-          },
+          // Removed Drafts and Archive links: feature not implemented
         ],
       },
       {
@@ -89,15 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: "Mood Calendar",
-            url: "/mood/calendar",
-          },
-          {
-            title: "Mood Trends",
-            url: "/mood/trends",
-          },
-          {
-            title: "Log Mood",
-            url: "/mood/log",
+            url: "/dashboard/mood",
           },
         ],
       },
