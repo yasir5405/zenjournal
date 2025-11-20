@@ -24,14 +24,35 @@ ZenJournal provides a safe space for users to document their mental health journ
   - Delete unwanted journal entries
   - Search functionality across titles and content
   - Sorting options (newest, oldest, alphabetical)
+  - Character and word count tracking
+  - Unsaved changes protection
+
+- **Analytics Dashboard**
+  - Real-time mood distribution analysis
+  - Current and longest streak tracking
+  - Mood trends visualization (7/30/90 day periods)
+  - Weekly activity calendar heatmap
+  - Interactive charts using Recharts library
+  - Dominant mood detection with visual indicators
+
+- **Mood Calendar**
+  - Interactive calendar view with mood visualization
+  - Color-coded mood indicators per day
+  - AI-powered mood insights using Google Gemini
+  - Mood statistics and trends analysis
+  - 8 mood categories: happy, sad, grateful, angry, anxious, calm, energetic, tired
+  - Monthly mood tracking with navigation
+  - Multiple entries per day support
+  - Automatic mood detection from journal content
 
 - **Modern UI/UX**
   - Responsive design with Tailwind CSS
   - Beautiful component library with Radix UI
-  - Sidebar navigation with collapsible sections
+  - Persistent sidebar navigation with collapsible sections
   - Modal-based entry creation and editing
   - Toast notifications for user feedback
   - Loading skeletons for better UX
+  - Dark mode support with theme toggle
 
 - **Security & Privacy**
   - JWT tokens stored in HTTP-only cookies
@@ -40,12 +61,11 @@ ZenJournal provides a safe space for users to document their mental health journ
   - User data isolation (users only see their own entries)
 
 ### Planned Features 🚧
-- Daily mood tracking and analytics
-- AI-powered insights and reflections
 - Tags and categories for entries
 - Export journal entries (PDF/Text)
-- Dashboard analytics with mood patterns
 - Password reset via email
+- Goals and progress tracking
+- Advanced AI insights and recommendations
 
 ## 🛠️ Tech Stack
 
@@ -61,6 +81,8 @@ ZenJournal provides a safe space for users to document their mental health journ
 - **React Hook Form** - Form handling
 - **Axios** - HTTP client
 - **Lucide React** - Icon library
+- **Recharts** - Chart and data visualization library
+- **date-fns** - Modern date utility library
 - **Motion** - Animation library
 
 ### Backend
@@ -73,6 +95,8 @@ ZenJournal provides a safe space for users to document their mental health journ
 - **Zod** - Schema validation
 - **CORS** - Cross-origin resource sharing
 - **dotenv** - Environment variable management
+- **Vercel AI SDK** - AI integration framework
+- **Google Gemini API** - AI-powered insights generation
 
 ### Development Tools
 - **ESLint** - Code linting
@@ -89,7 +113,9 @@ backend-project/
 │   │   └── db.js              # MongoDB connection
 │   ├── controllers/
 │   │   ├── auth.controller.js  # Authentication logic
-│   │   └── journal.controller.js # Journal CRUD operations
+│   │   ├── journal.controller.js # Journal CRUD operations
+│   │   ├── analytics.controller.js # Analytics and mood trends
+│   │   └── mood.controller.js  # Mood tracking and AI insights
 │   ├── middlewares/
 │   │   ├── auth.middleware.js  # JWT verification
 │   │   └── error.middleware.js # Global error handling
@@ -98,7 +124,8 @@ backend-project/
 │   │   └── journal.model.js   # Journal entry schema
 │   ├── routes/
 │   │   ├── auth.route.js      # Authentication routes
-│   │   └── journal.route.js   # Journal routes
+│   │   ├── journal.route.js   # Journal routes
+│   │   └── mood.route.js      # Mood tracking routes
 │   ├── utils/
 │   │   └── validation.js      # Zod validation schemas
 │   ├── docs/
@@ -115,6 +142,11 @@ backend-project/
 │   │   ├── hooks/           # Custom React hooks
 │   │   ├── lib/             # Utility functions
 │   │   ├── pages/           # Application pages
+│   │   │   ├── Dashboard.tsx    # Main dashboard
+│   │   │   ├── Analytics.tsx    # Analytics dashboard
+│   │   │   ├── MoodCalendar.tsx # Mood calendar view
+│   │   │   ├── Entries.tsx      # All entries page
+│   │   │   └── CreateEntry.tsx  # Entry creation
 │   │   ├── store/           # Redux store configuration
 │   │   ├── types/           # TypeScript type definitions
 │   │   ├── App.tsx          # Main application component
@@ -157,11 +189,13 @@ backend-project/
    
    Create a `.env` file in the backend directory:
    ```env
-   PORT=3000
-   MONGODB_URI=mongodb://localhost:27017/zenjournal
+   PORT=5000
+   MONGO_URI=mongodb://localhost:27017/zenjournal
    JWT_SECRET=your-super-secret-jwt-key
-   NODE_ENV=development
+   GOOGLE_GENERATIVE_AI_API_KEY=your-gemini-api-key
    ```
+   
+   > **Note:** Get your free Gemini API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 
 5. **Start the Applications**
    
@@ -179,7 +213,7 @@ backend-project/
 
 6. **Access the Application**
    - Frontend: `http://localhost:5173`
-   - Backend API: `http://localhost:3000`
+   - Backend API: `http://localhost:5000`
 
 ## 📚 API Documentation
 
@@ -212,11 +246,11 @@ Get current user information (requires authentication)
 
 ### Journal Endpoints
 
-#### GET `/journal/entries`
+#### GET `/journal`
 Get paginated journal entries for authenticated user
 - Query parameters: `page`, `limit`, `search`, `sort`
 
-#### POST `/journal/entries`
+#### POST `/journal`
 Create a new journal entry
 ```json
 {
@@ -225,10 +259,10 @@ Create a new journal entry
 }
 ```
 
-#### GET `/journal/entries/:id`
+#### GET `/journal/:id`
 Get a specific journal entry by ID
 
-#### PUT `/journal/entries/:id`
+#### PUT `/journal/:id`
 Update an existing journal entry
 ```json
 {
@@ -237,8 +271,42 @@ Update an existing journal entry
 }
 ```
 
-#### DELETE `/journal/entries/:id`
+#### DELETE `/journal/:id`
 Delete a journal entry
+
+### Analytics Endpoints
+
+#### GET `/journal/analytics/overview`
+Get analytics overview including mood distribution and streaks
+
+#### GET `/journal/analytics/trends`
+Get mood trends over time
+- Query parameters: `period` (7, 30, or 90 days)
+
+#### GET `/journal/analytics/activity`
+Get activity calendar data for the current month
+
+### Mood Tracking Endpoints
+
+#### GET `/mood/calendar`
+Get mood calendar data for a specific month
+- Query parameters: `month`, `year`
+
+#### GET `/mood/insights`
+Get AI-powered mood insights based on the last 30 days of entries
+
+#### GET `/mood/stats`
+Get mood statistics and distribution
+- Query parameters: `days` (default: 30)
+
+#### POST `/mood/log`
+Log a quick mood entry without a full journal
+```json
+{
+  "mood": "happy",
+  "note": "Feeling great today!"
+}
+```
 
 ## 🔒 Security Features
 
