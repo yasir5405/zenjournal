@@ -1,6 +1,7 @@
 "use client";
 
 import { Settings, Download, LogOut, User, ChevronsUpDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -34,6 +35,7 @@ export function NavUser({
   const { isMobile } = useSidebar();
   const dispatch = useDispatch();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Generate user initials from name
   const getInitials = (name: string) => {
@@ -57,17 +59,15 @@ export function NavUser({
   };
 
   const handleExportData = () => {
-    toast({
-      title: "Export Data",
-      description: "Data export functionality will be available soon.",
-    });
+    navigate("/settings/export");
   };
 
   const handleProfileSettings = () => {
-    toast({
-      title: "Profile Settings",
-      description: "Profile settings will be available soon.",
-    });
+    navigate("/settings/profile");
+  };
+
+  const handleAppSettings = () => {
+    navigate("/settings/privacy");
   };
 
   return (
@@ -122,7 +122,7 @@ export function NavUser({
                 <Download />
                 Export Journal Data
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleAppSettings}>
                 <Settings />
                 App Settings
               </DropdownMenuItem>

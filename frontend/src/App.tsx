@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Dashboard, Home, LoginPage, NotFoundPage, SignupPage, Analytics, Entries, CreateEntry, MoodCalendar } from "./pages";
+import { Dashboard, Home, LoginPage, NotFoundPage, SignupPage, Analytics, Entries, CreateEntry, MoodCalendar, ProfileSettings, PrivacySettings, NotificationSettings, ExportDataSettings } from "./pages";
 import RecentEntries from "./pages/RecentEntries";
 import { useEffect } from "react";
 import { api } from "./api/api";
@@ -155,6 +155,46 @@ const App = () => {
             <ProtectedRoute>
               <DashboardLayout>
                 <CreateEntry />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/profile"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ProfileSettings />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/privacy"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <PrivacySettings />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/notifications"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <NotificationSettings />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings/export"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ExportDataSettings />
               </DashboardLayout>
             </ProtectedRoute>
           }

@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  Calendar,
-  FileText,
-  Heart,
-  Home,
-  PlusCircle,
-  Settings,
-  TrendingUp,
-} from "lucide-react";
+import { FileText, Home, PlusCircle, Settings, TrendingUp } from "lucide-react";
 import { useSelector } from "react-redux";
 
 import { NavMain } from "@/components/nav-main";
@@ -41,7 +33,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Dashboard",
         url: "/dashboard",
         icon: Home,
-        isActive: true,
         items: [
           {
             title: "Overview",
@@ -85,25 +76,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ],
       },
       {
-        title: "Goals & Progress",
-        url: "/goals",
-        icon: Calendar,
-        items: [
-          {
-            title: "My Goals",
-            url: "/goals",
-          },
-          {
-            title: "Progress Tracking",
-            url: "/goals/progress",
-          },
-          {
-            title: "Achievements",
-            url: "/goals/achievements",
-          },
-        ],
-      },
-      {
         title: "Settings",
         url: "/settings",
         icon: Settings,
@@ -132,16 +104,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         name: "New Journal Entry",
         url: "/entries/new",
         icon: PlusCircle,
-      },
-      {
-        name: "Log Mood",
-        url: "/mood/log",
-        icon: Heart,
-      },
-      {
-        name: "View Progress",
-        url: "/goals/progress",
-        icon: TrendingUp,
       },
     ],
   };
@@ -173,7 +135,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.quickActions} />
+        {/* <NavProjects projects={data.quickActions} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
